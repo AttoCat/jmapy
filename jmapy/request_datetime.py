@@ -2,10 +2,7 @@ from datetime import datetime, timezone
 
 
 class RequestDateTime:
-    def __init__(self, request_datetime=None):
-        if request_datetime is None:
-            self.request_datetime = self.datetime_to_string(datetime.utcnow())
-            return
+    def __init__(self, request_datetime=datetime.utcnow()):
         if isinstance(request_datetime, int):
             request_datetime = str(request_datetime)
         if isinstance(request_datetime, datetime):
