@@ -25,5 +25,5 @@ class RequestDateTime:
         return self.request_datetime
 
     @staticmethod
-    def datetime_to_string(datetime: datetime) -> str:
-        return datetime.strftime("%Y%m%d%H%M")
+    def datetime_to_string(to_convert_datetime: datetime) -> str:
+        return to_convert_datetime.strftime("%Y%m%d%H%M")
