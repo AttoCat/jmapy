@@ -22,6 +22,3 @@ class RequestDateTime:
     @staticmethod
     def datetime_to_string(to_convert_datetime: datetime) -> str:
         return to_convert_datetime.strftime("%Y%m%d%H%M")
-
-
-print(RequestDateTime(datetime.now()))
