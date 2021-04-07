@@ -9,14 +9,9 @@ class RequestDateTime:
                 datetime.utcnow())
             return
         if isinstance(request_datetime, datetime):
-            if (request_datetime.tzinfo is None) or (request_datetime.tzinfo == "UTC"):
-                self.request_datetime = self.datetime_to_string(
-                    request_datetime)
-                return
-            if request_datetime.tzinfo and (request_datetime.tzinfo != "UTC"):
-                self.request_datetime = self.datetime_to_string(
-                    request_datetime.astimezone(timezone.utc))
-                return
+            self.request_datetime = self.datetime_to_string(
+                request_datetime.astimezone(timezone.utc))
+            return
         else:
             raise TypeError(
                 f"RequestTime() argument must be datetime.datetime or str, not {type(request_datetime).__name__}")
@@ -27,3 +22,6 @@ class RequestDateTime:
     @staticmethod
     def datetime_to_string(to_convert_datetime: datetime) -> str:
         return to_convert_datetime.strftime("%Y%m%d%H%M")
+
+
+print(RequestDateTime(datetime.now()))
