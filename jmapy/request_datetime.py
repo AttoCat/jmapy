@@ -27,11 +27,3 @@ class RequestDateTime:
     @staticmethod
     def datetime_to_string(datetime: datetime) -> str:
         return datetime.strftime("%Y%m%d%H%M")
-
-    @staticmethod
-    def is_convertible(text: str) -> bool:
-        try:
-            datetime.strptime(text, "%Y%m%d%H%M")
-        except ValueError:
-            return False
-        return True
