@@ -1,13 +1,13 @@
 from datetime import datetime, timezone
+from typing import Optional
 
 
 class RequestDateTime:
-    def __init__(self, request_datetime=None):
+    def __init__(self, request_datetime: Optional[datetime] = None) -> None:
         if request_datetime is None:
-            self.request_datetime = self.datetime_to_string(datetime.utcnow())
+            self.request_datetime: str = self.datetime_to_string(
+                datetime.utcnow())
             return
-        if isinstance(request_datetime, int):
-            request_datetime = str(request_datetime)
         if isinstance(request_datetime, datetime):
             if (request_datetime.tzinfo is None) or (request_datetime.tzinfo == "UTC"):
                 self.request_datetime = self.datetime_to_string(
@@ -17,25 +17,19 @@ class RequestDateTime:
                 self.request_datetime = self.datetime_to_string(
                     request_datetime.astimezone(timezone.utc))
                 return
-        elif isinstance(request_datetime, str):
-            if self.is_convertible(request_datetime):
-                self.request_datetime = request_datetime
-            else:
-                raise ValueError(
-                    f"RequestTime() argument does not match the pattern. [specify a six-digit date. Ex:{RequestDateTime()}]")
         else:
             raise TypeError(
                 f"RequestTime() argument must be datetime.datetime or str, not {type(request_datetime).__name__}")
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.request_datetime
 
     @staticmethod
-    def datetime_to_string(datetime: datetime):
+    def datetime_to_string(datetime: datetime) -> str:
         return datetime.strftime("%Y%m%d%H%M")
 
     @staticmethod
-    def is_convertible(text):
+    def is_convertible(text: str) -> bool:
         try:
             datetime.strptime(text, "%Y%m%d%H%M")
         except ValueError:
