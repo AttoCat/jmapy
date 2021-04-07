@@ -14,7 +14,7 @@ class RequestDateTime:
             return
         else:
             raise TypeError(
-                f"RequestTime() argument must be datetime.datetime or str, not {type(request_datetime).__name__}")
+                f"RequestTime() argument must be datetime.datetime, not {type(request_datetime).__name__}")
 
     def __str__(self) -> str:
         return self.request_datetime
