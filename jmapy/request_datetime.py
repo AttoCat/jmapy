@@ -12,6 +12,8 @@ class RequestDateTime:
             self.request_datetime = self.datetime_to_string(
                 request_datetime.astimezone(timezone.utc))
             return
+        elif isinstance(request_datetime, RequestDateTime):
+            return
         else:
             raise TypeError(
                 f"RequestTime() argument must be datetime.datetime, not {type(request_datetime).__name__}")
