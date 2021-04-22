@@ -2,6 +2,8 @@ from requests import get
 
 from errors import InternalServerError, NotFound
 
+_BASE = "https://www.jma.go.jp/bosai/"
+
 
 def _jma_get(url: str, **kwargs):
     response = get(url, kwargs)
