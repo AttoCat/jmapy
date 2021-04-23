@@ -2,11 +2,11 @@ from requests import get
 
 from errors import InternalServerError, NotFound
 
-_BASE = "https://www.jma.go.jp/bosai/"
+BASE = "https://www.jma.go.jp/bosai"
 
 
 def _jma_get(url: str, **kwargs):
-    response = get(url, kwargs)
+    response = get(f"{BASE}{url}", **kwargs)
     if response.status_code == 404:
         raise NotFound
     elif response.status_code == 500:
