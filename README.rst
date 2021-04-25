@@ -14,4 +14,4 @@ or upgrade
 
 .. code-block:: sh
 
-   pip install jmapy -U
+   pip install git+https://github.com/AttoCat/jmapy -U
