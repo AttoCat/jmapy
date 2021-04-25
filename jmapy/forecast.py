@@ -7,8 +7,8 @@ from typing import List, Union
 from dacite import Config, from_dict
 from humps import decamelize
 
-from areas import Pops, Temps, Weathers
-from request import _jma_get
+from .areas import Pops, Temps, Weathers
+from .request import _jma_get
 
 
 def get_forecast(area_code: int | str, raw: bool = False):

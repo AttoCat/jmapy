@@ -7,9 +7,9 @@ from typing import List, Union
 from dacite import Config, from_dict
 from humps import decamelize
 
-from areas import (WeeklyPops, WeeklyPrecipAverage, WeeklyTempAverage,
-                   WeeklyTemps)
-from request import _jma_get
+from .areas import (WeeklyPops, WeeklyPrecipAverage, WeeklyTempAverage,
+                    WeeklyTemps)
+from .request import _jma_get
 
 
 def get_weekly_forecast(area_code: int | str, raw: bool = False):
