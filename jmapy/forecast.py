@@ -7,7 +7,7 @@ from typing import List, Union
 from dacite import Config, from_dict
 from humps import decamelize
 
-from areas import PopsArea, TempsArea, WeathersArea
+from areas import Pops, Temps, Weathers
 from request import _jma_get
 
 
@@ -30,5 +30,5 @@ class Forecast:
 
 @dataclass
 class TimeSeries:
-    time_defines: List[str]
-    areas: List[Union[WeathersArea, TempsArea, PopsArea]]
+    time_defines: List[datetime]
+    areas: List[Union[Weathers, Temps, Pops]]
