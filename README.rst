@@ -4,7 +4,7 @@ A JMA-API wrapper.
 
 Installing
 ----------
-*Python 3.7 or highter is required.*
+**Python 3.7 or highter is required.**
 
 .. code-block:: sh
 
