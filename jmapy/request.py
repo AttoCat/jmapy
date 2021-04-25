@@ -1,6 +1,6 @@
 from requests import get
 
-from errors import InternalServerError, NotFound
+from .errors import InternalServerError, NotFound
 
 BASE = "https://www.jma.go.jp/bosai"
 
