@@ -6,10 +6,12 @@ Installing
 ----------
 *Python 3.7 or highter is required.*
 
-..code:: sh
-    pip install jmapy
+.. code-block:: sh
+
+   pip install git+https://github.com/AttoCat/jmapy
 
 or upgrade
 
-..code:: sh
-    pip install jmapy -U
+.. code-block:: sh
+
+   pip install jmapy -U
