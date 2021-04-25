@@ -32,4 +32,3 @@ class Forecast:
 class TimeSeries:
     time_defines: List[datetime]
     areas: List[Union[Weathers, Temps, Pops]]
-
