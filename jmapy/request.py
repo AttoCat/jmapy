@@ -13,5 +13,7 @@ def _jma_get(url: str, **kwargs):
         raise NotFound
     elif response.status_code == 500:
         raise InternalServerError
+    print(response.text)
     json = response.text.replace("\u3000", " ")
+    print(json)
     return loads(json)
