@@ -1,3 +1,5 @@
+from json import loads
+
 from requests import get
 
 from .errors import InternalServerError, NotFound
@@ -11,4 +13,5 @@ def _jma_get(url: str, **kwargs):
         raise NotFound
     elif response.status_code == 500:
         raise InternalServerError
-    return response.json()
+    json = response.text.replace("\u3000", " ")
+    return loads(json)
