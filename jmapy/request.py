@@ -1,6 +1,5 @@
 from json import loads
 
-from humps import decamelize
 from requests import get
 
 from .errors import InternalServerError, NotFound
@@ -14,7 +13,5 @@ def _jma_get(url: str, raw: bool = False, **kwargs):
         raise NotFound
     elif response.status_code == 500:
         raise InternalServerError
-    if raw:
-        return response.json()
     encoded_text = response.text.replace("\u3000", " ")
-    return decamelize(loads(encoded_text))
+    return loads(encoded_text)
