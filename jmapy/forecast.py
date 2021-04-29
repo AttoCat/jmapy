@@ -5,7 +5,6 @@ from datetime import datetime
 from typing import List, Union
 
 from dacite import Config, from_dict
-from humps import decamelize
 
 from .areas import Pops, Temps, Weathers
 from .request import _jma_get
@@ -18,7 +17,7 @@ def get_forecast(area_code: int | str, raw: bool = False):
         f"/forecast/data/forecast/{area_code}.json")[0]
     if raw:
         return forecast
-    return from_dict(Forecast, decamelize(forecast), Config({datetime: datetime.fromisoformat}))
+    return from_dict(Forecast, forecast, Config({datetime: datetime.fromisoformat}))
 
 
 @dataclass
