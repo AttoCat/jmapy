@@ -1,8 +1,11 @@
+from json import loads
+
 from requests import get
 
 from .errors import InternalServerError, NotFound
 
 BASE = "https://www.jma.go.jp/bosai"
+BASE2 = f'{BASE}'
 
 
 def _jma_get(url: str, **kwargs):
@@ -11,4 +14,4 @@ def _jma_get(url: str, **kwargs):
         raise NotFound
     elif response.status_code == 500:
         raise InternalServerError
-    return response.json()
+    return loads(response.text.replace("\u3000", " "))
