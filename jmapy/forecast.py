@@ -11,7 +11,7 @@ from .parse_models import Area, ParsedPops, ParsedTemps, ParsedWeathers
 from .request import _jma_get
 
 
-def get_forecast(area_code: int | str, raw: bool = False):
+def get_forecast(area_code: str, raw: bool = False):
     if type(raw) is not bool:
         raise TypeError(f"raw argument must be bool, not {type(raw).__name__}")
     forecast = _jma_get(
