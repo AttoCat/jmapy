@@ -9,7 +9,7 @@ class Area:
 
 
 @dataclass
-class Weathers:
+class ParsedWeathers:
     area: Area
     weather_codes: List[str]
     weathers: List[str]
@@ -18,13 +18,13 @@ class Weathers:
 
 
 @dataclass
-class Temps:
+class ParsedTemps:
     area: Area
     temps: List[str]
 
 
 @dataclass
-class Pops:
+class ParsedPops:
     area: Area
     pops: List[str]
 
