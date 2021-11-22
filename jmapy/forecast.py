@@ -20,8 +20,6 @@ def get_forecast(area_code: str, raw: bool = False):
         return forecast
     return from_dict(Forecast, decamelize(forecast), Config({datetime: datetime.fromisoformat}, cast=[tuple]))
 
-# search_from_areaをつくる
-
 
 @dataclass
 class Forecast:
