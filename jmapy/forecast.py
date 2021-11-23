@@ -30,7 +30,7 @@ class Forecast:
     def get_weathers(self, area: str):
         if not isinstance(area, str):
             raise TypeError(
-                f"area argument must be bool, not {type(area).__name__}")
+                f"area argument must be str, not {type(area).__name__}")
         for item in self.time_series[0].areas:
             if area not in (item.area.name, item.area.code):
                 continue
