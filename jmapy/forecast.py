@@ -31,6 +31,23 @@ class Forecast:
     def __post_init__(self):
         self.weather_forecasts, self.pop_forecasts, self.temp_forecasts = self.time_series
 
+    @property
+    def available_areas(self):
+        weather_areas = [
+            forecast.area for forecast in self.weather_forecasts.areas]
+        pop_areas = [forecast.area for forecast in self.pop_forecasts.areas]
+        temp_areas = [forecast.area for forecast in self.temp_forecasts.areas]
+        available_areas = {
+            "weather": weather_areas,
+            "weather_code": weather_areas,
+            "wind": weather_areas,
+            "wind": weather_areas,
+            "wave": weather_areas,
+            "pop": pop_areas,
+            "temp": temp_areas
+        }
+        return available_areas
+
     def _get_forecast_from_areas(self, area: str, forecasts):
         if not isinstance(area, str):
             raise TypeError(
