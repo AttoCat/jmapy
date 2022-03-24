@@ -8,13 +8,13 @@ from dacite import Config, from_dict
 from humps import decamelize
 
 from .parse_models import Area, ParsedPops, ParsedTemps, ParsedWeathers
-from .request import _jma_get
+from .request import _fetch_from_jma
 
 
 def get_forecast(area_code: str, raw: bool = False):
     if not isinstance(raw, bool):
         raise TypeError(f"raw argument must be bool, not {type(raw).__name__}")
-    forecast = _jma_get(
+    forecast = _fetch_from_jma(
         f"/forecast/data/forecast/{area_code}.json")[0]
     if raw:
         return forecast
