@@ -7,19 +7,20 @@ from typing import List, Union
 from dacite import Config, from_dict
 from humps import decamelize
 
-from .areas import (WeeklyPops, WeeklyPrecipAverage, WeeklyTempAverage,
-                    WeeklyTemps)
-from .request import _jma_get
+from .parse_models import (WeeklyPops, WeeklyPrecipAverage, WeeklyTempAverage,
+                           WeeklyTemps)
+from .request import _fetch_from_jma
 
 
 def get_weekly_forecast(area_code: int | str, raw: bool = False):
-    if type(raw) is not bool:
+    if not isinstance(raw, bool):
         raise TypeError(f"raw argument must be bool, not {type(raw).__name__}")
-    weekly_forecast = _jma_get(
+    weekly_forecast = _fetch_from_jma(
         f"/forecast/data/forecast/{area_code}.json")[1]
     if raw:
         return weekly_forecast
-    return from_dict(WeeklyForecast, decamelize(weekly_forecast), Config({datetime: datetime.fromisoformat}))
+    return from_dict(WeeklyForecast, decamelize(weekly_forecast),
+                     Config({datetime: datetime.fromisoformat}))
 
 
 @dataclass
