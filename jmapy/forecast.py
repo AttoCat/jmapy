@@ -14,12 +14,10 @@ from .request import _fetch_from_jma
 def get_forecast(area_code: str, raw: bool = False):
     if not isinstance(raw, bool):
         raise TypeError(f"raw argument must be bool, not {type(raw).__name__}")
-    forecast = _fetch_from_jma(
-        f"/forecast/data/forecast/{area_code}.json")[0]
+    forecast = _fetch_from_jma(f"/forecast/data/forecast/{area_code}.json")[0]
     if raw:
         return forecast
-    return from_dict(Forecast, decamelize(forecast), Config(
-        {datetime: datetime.fromisoformat}, cast=[tuple]))
+    return from_dict(Forecast, decamelize(forecast), Config({datetime: datetime.fromisoformat}, cast=[tuple]))
 
 
 @dataclass
@@ -33,8 +31,7 @@ class Forecast:
 
     @property
     def available_areas(self):
-        weather_areas = [
-            forecast.area for forecast in self.weather_forecasts.areas]
+        weather_areas = [forecast.area for forecast in self.weather_forecasts.areas]
         pop_areas = [forecast.area for forecast in self.pop_forecasts.areas]
         temp_areas = [forecast.area for forecast in self.temp_forecasts.areas]
         available_areas = {
@@ -44,14 +41,13 @@ class Forecast:
             "wind": weather_areas,
             "wave": weather_areas,
             "pop": pop_areas,
-            "temp": temp_areas
+            "temp": temp_areas,
         }
         return available_areas
 
     def _get_forecast_from_areas(self, area: str, forecasts):
         if not isinstance(area, str):
-            raise TypeError(
-                f"area argument must be str, not {type(area).__name__}")
+            raise TypeError(f"area argument must be str, not {type(area).__name__}")
         for forecast in forecasts.areas:
             if area not in (forecast.area.name, forecast.area.code):
                 continue
@@ -63,43 +59,39 @@ class Forecast:
         forecast = self._get_forecast_from_areas(area, self.weather_forecasts)
         if forecast is None:
             return None
-        return Weathers(
-            area=forecast.area, weathers=forecast.weathers, time_defines=self.weather_time_defines)
+        return Weathers(area=forecast.area, weathers=forecast.weathers, time_defines=self.weather_time_defines)
 
     def get_weather_codes(self, area: str):
         forecast = self._get_forecast_from_areas(area, self.weather_forecasts)
         if forecast is None:
             return None
         return WeatherCodes(
-            area=forecast.area, weather_codes=forecast.weather_codes, time_defines=self.weather_time_defines)
+            area=forecast.area, weather_codes=forecast.weather_codes, time_defines=self.weather_time_defines
+        )
 
     def get_winds(self, area: str):
         forecast = self._get_forecast_from_areas(area, self.weather_forecasts)
         if forecast is None:
             return None
-        return Winds(area=forecast.area, winds=forecast.winds,
-                     time_defines=self.weather_time_defines)
+        return Winds(area=forecast.area, winds=forecast.winds, time_defines=self.weather_time_defines)
 
     def get_waves(self, area: str):
         forecast = self._get_forecast_from_areas(area, self.weather_forecasts)
         if forecast is None:
             return None
-        return Winds(area=forecast.area, winds=forecast.winds,
-                     time_defines=self.weather_time_defines)
+        return Winds(area=forecast.area, winds=forecast.winds, time_defines=self.weather_time_defines)
 
     def get_pops(self, area: str):
         forecast = self._get_forecast_from_areas(area, self.pop_forecasts)
         if forecast is None:
             return None
-        return Pops(area=forecast.area, winds=forecast.winds,
-                    time_defines=self.pop_forecasts.time_defines)
+        return Pops(area=forecast.area, winds=forecast.winds, time_defines=self.pop_forecasts.time_defines)
 
     def get_temps(self, area: str):
         forecast = self._get_forecast_from_areas(area, self.temp_forecasts)
         if forecast is None:
             return None
-        return Temps(area=forecast.area, temps=forecast.temps,
-                     time_defines=self.temp_forecasts.time_defines)
+        return Temps(area=forecast.area, temps=forecast.temps, time_defines=self.temp_forecasts.time_defines)
 
 
 @dataclass
