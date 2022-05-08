@@ -1,4 +1,5 @@
 from .forecast import get_forecast
+from .part import fetch_parts, get_part, search_part
 from .weekly_forecast import get_weekly_forecast
 
 __title__ = "jmapy"
