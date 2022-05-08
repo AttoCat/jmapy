@@ -12,7 +12,7 @@ class Part:
     name: str
     en_name: str
     office_name: str
-    children: str
+    children: list[str]
 
 
 def fetch_parts(raw: bool = False):
