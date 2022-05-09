@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import Optional
 
-from humps import decamelize
+import jmapy.county as county
 
 from .request import _fetch_from_jma
 
@@ -12,14 +14,18 @@ class Part:
     name: str
     en_name: str
     office_name: str
-    children: list[str]
+    _children: list[str]
+
+    @property
+    def counties(self) -> list[county.County]:
+        return [county.get_county(child) for child in self._children]
 
 
-def fetch_parts(raw: bool = False):
+def fetch_parts(raw: bool = False) -> list[Part]:
     parts = _fetch_from_jma("/common/const/area.json")["centers"]
     if raw:
         return parts
-    return [Part(k, *v.values()) for k, v in decamelize(parts).items()]
+    return [Part(code, *value.values()) for code, value in parts.items()]
 
 
 PARTS = fetch_parts()
