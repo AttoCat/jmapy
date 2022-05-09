@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from typing import Optional
 
 import jmapy.part as part
+import jmapy.region as region
 
 from .request import _fetch_from_jma
 
@@ -20,6 +21,10 @@ class County:
     @property
     def part(self) -> part.Part:
         return part.get_part(self._parent)
+
+    @property
+    def regions(self) -> list[region.Region]:
+        return [region.get_region(child) for child in self._children]
 
 
 def fetch_counties(raw: bool = False) -> list[County]:
