@@ -1,6 +1,7 @@
 from .county import *
 from .forecast import *
 from .part import *
+from .region import *
 from .weekly_forecast import *
 
 __title__ = "jmapy"
