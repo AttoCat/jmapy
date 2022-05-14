@@ -22,7 +22,7 @@ class Region:
         return county.get_county(self._parent)
 
     @property
-    def areas(self) -> area.Area:
+    def areas(self) -> list[area.Area]:
         return [area.get_area(child) for child in self._children]
 
 

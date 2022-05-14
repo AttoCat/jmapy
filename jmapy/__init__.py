@@ -1,4 +1,5 @@
 from .area import *
+from .city import *
 from .county import *
 from .forecast import *
 from .part import *
