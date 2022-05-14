@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Optional
 
-import jmapy.area as area
+import jmapy.district as district
 
 from .request import _fetch_from_jma
 
@@ -17,8 +17,8 @@ class City:
     _parent: str
 
     @property
-    def area(self) -> area.Area:
-        return area.get_area(self._parent)
+    def district(self) -> district.District:
+        return district.get_district(self._parent)
 
 
 def fetch_cities(raw: bool = False) -> list[City]:

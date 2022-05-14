@@ -1,6 +1,6 @@
-from .area import *
 from .city import *
 from .county import *
+from .district import *
 from .forecast import *
 from .part import *
 from .region import *

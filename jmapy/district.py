@@ -10,7 +10,7 @@ from .request import _fetch_from_jma
 
 
 @dataclass
-class Area:
+class District:
     code: str
     name: str
     en_name: str
@@ -26,27 +26,27 @@ class Area:
         return [city.get_city(child) for child in self._children]
 
 
-def fetch_areas(raw: bool = False) -> list[Area]:
-    areas = _fetch_from_jma("/common/const/area.json")["class15s"]
+def fetch_districts(raw: bool = False) -> list[District]:
+    districts = _fetch_from_jma("/common/const/area.json")["class15s"]
     if raw:
-        return areas
-    return [Area(code, *value.values()) for code, value in areas.items()]
+        return districts
+    return [District(code, *value.values()) for code, value in districts.items()]
 
 
-AREAS = fetch_areas()
+DISTRICTS = fetch_districts()
 
 
-def get_area(code: str) -> Optional[Area]:
-    for area in AREAS:
-        if code == area.code:
-            return area
+def get_district(code: str) -> Optional[District]:
+    for district in DISTRICTS:
+        if code == district.code:
+            return district
     else:
         return None
 
 
-def search_area(name: str) -> Optional[Area]:
-    for area in AREAS:
-        if name in (area.name, area.en_name):
-            return area
+def search_district(name: str) -> Optional[District]:
+    for district in DISTRICTS:
+        if name in (district.name, district.en_name):
+            return district
     else:
         return None
