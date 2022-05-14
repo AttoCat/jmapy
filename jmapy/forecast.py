@@ -59,27 +59,29 @@ class Forecast:
         forecast = self._get_forecast_from_areas(area, self.weather_forecasts)
         if forecast is None:
             return None
-        return Weathers(area=forecast.area, weathers=forecast.weathers, time_defines=self.weather_time_defines)
+        return Weathers(
+            area=forecast.area, weathers=forecast.weathers, time_defines=self.weather_forecasts.time_defines
+        )
 
     def get_weather_codes(self, area: str):
         forecast = self._get_forecast_from_areas(area, self.weather_forecasts)
         if forecast is None:
             return None
         return WeatherCodes(
-            area=forecast.area, weather_codes=forecast.weather_codes, time_defines=self.weather_time_defines
+            area=forecast.area, weather_codes=forecast.weather_codes, time_defines=self.weather_forecasts.time_defines
         )
 
     def get_winds(self, area: str):
         forecast = self._get_forecast_from_areas(area, self.weather_forecasts)
         if forecast is None:
             return None
-        return Winds(area=forecast.area, winds=forecast.winds, time_defines=self.weather_time_defines)
+        return Winds(area=forecast.area, winds=forecast.winds, time_defines=self.weather_forecasts.time_defines)
 
     def get_waves(self, area: str):
         forecast = self._get_forecast_from_areas(area, self.weather_forecasts)
         if forecast is None:
             return None
-        return Winds(area=forecast.area, winds=forecast.winds, time_defines=self.weather_time_defines)
+        return Winds(area=forecast.area, winds=forecast.winds, time_defines=self.weather_forecasts.time_defines)
 
     def get_pops(self, area: str):
         forecast = self._get_forecast_from_areas(area, self.pop_forecasts)
