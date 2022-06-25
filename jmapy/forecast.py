@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import InitVar, dataclass
 from datetime import datetime
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 
 from dacite import Config, from_dict
 from humps import decamelize
@@ -11,10 +11,10 @@ from .parse_models import Area, ParsedPops, ParsedTemps, ParsedWeathers
 from .request import _fetch_from_jma
 
 
-def get_forecast(area_code: str, raw: bool = False):
+def get_forecast(code: str, raw: bool = False):
     if not isinstance(raw, bool):
         raise TypeError(f"raw argument must be bool, not {type(raw).__name__}")
-    forecast = _fetch_from_jma(f"/forecast/data/forecast/{area_code}.json")[0]
+    forecast = _fetch_from_jma(f"/forecast/data/forecast/{code}.json")[0]
     if raw:
         return forecast
     return from_dict(Forecast, decamelize(forecast), Config({datetime: datetime.fromisoformat}, cast=[tuple]))
@@ -28,22 +28,6 @@ class Forecast:
 
     def __post_init__(self):
         self.weather_forecasts, self.pop_forecasts, self.temp_forecasts = self.time_series
-
-    @property
-    def available_areas(self):
-        weather_areas = [forecast.area for forecast in self.weather_forecasts.areas]
-        pop_areas = [forecast.area for forecast in self.pop_forecasts.areas]
-        temp_areas = [forecast.area for forecast in self.temp_forecasts.areas]
-        available_areas = {
-            "weather": weather_areas,
-            "weather_code": weather_areas,
-            "wind": weather_areas,
-            "wind": weather_areas,
-            "wave": weather_areas,
-            "pop": pop_areas,
-            "temp": temp_areas,
-        }
-        return available_areas
 
     def _get_forecast_from_areas(self, area: str, forecasts):
         if not isinstance(area, str):
@@ -81,19 +65,46 @@ class Forecast:
         forecast = self._get_forecast_from_areas(area, self.weather_forecasts)
         if forecast is None:
             return None
-        return Winds(area=forecast.area, winds=forecast.winds, time_defines=self.weather_forecasts.time_defines)
+        return Winds(area=forecast.area, winds=forecast.waves, time_defines=self.weather_forecasts.time_defines)
 
     def get_pops(self, area: str):
         forecast = self._get_forecast_from_areas(area, self.pop_forecasts)
         if forecast is None:
             return None
-        return Pops(area=forecast.area, winds=forecast.winds, time_defines=self.pop_forecasts.time_defines)
+        return Pops(area=forecast.area, pops=forecast.pops, time_defines=self.pop_forecasts.time_defines)
 
     def get_temps(self, area: str):
         forecast = self._get_forecast_from_areas(area, self.temp_forecasts)
         if forecast is None:
             return None
         return Temps(area=forecast.area, temps=forecast.temps, time_defines=self.temp_forecasts.time_defines)
+
+
+@dataclass
+class OnedayForecast:
+    date: datetime
+    publishing_office: str
+    weather: str
+    weather_code: str
+    wave: Optional[str]
+    wind: str
+    pops: InitVar[List[str]]
+    pop_time_defines: InitVar[List[datetime]]
+
+    def __post_init__(self, pops: List[str], pop_time_defines: List[datetime]):
+        p00to06 = p06to12 = p12to18 = p18to24 = None
+        for pop_time_define, pop in zip(pop_time_defines, pops):
+            if pop_time_define.day != self.date:
+                continue
+            if pop_time_define.hour == 0:
+                p00to06 = pop
+            elif pop_time_define.hour == 6:
+                p06to12 = pop
+            elif pop_time_define.hour == 12:
+                p12to18 = pop
+            elif pop_time_define.hour == 18:
+                p18to24 = pop
+            self.pops = [p00to06, p06to12, p12to18, p18to24]
 
 
 @dataclass
@@ -119,7 +130,7 @@ class Winds(_BaseForecast):
 
 @dataclass
 class Waves(_BaseForecast):
-    waves: List[str]
+    waves: Optional[List[str]]
 
 
 @dataclass
